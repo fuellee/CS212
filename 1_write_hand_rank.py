@@ -28,6 +28,18 @@
 # Since we are assuming that some functions are already
 # written, this code will not RUN. Clicking SUBMIT will
 # tell you if you are correct.
+import random
+hand_names = ['High Card',
+              'Pair',
+              '2 Pair',
+              '3 Kind',
+              'Straight',
+              'Flush',
+              'Full House',
+              '4 kind',
+              'Straight Flush']
+mydeck = [r+s for r in '23456789TJQKA' for s in 'SHDC']
+
 def straight(ranks):
     "Return True if the ordered ranks form a 5-card straight."
     # return all([ranks[i]-ranks[i+1]==1 for i in range(len(ranks)-1)])
@@ -62,7 +74,7 @@ def two_pair(ranks):
     # pairs = tuple(ranks[i] for i in range(len(ranks)-1) if ranks[i]==ranks[i+1])
     # return pairs if len(pairs)==2 and pairs[0]!=pairs[1] else None
     pair = kind(2,ranks)
-    lowpair = kind(2, list(reverse(ranks)))
+    lowpair = kind(2, list(reversed(ranks)))
     return (pair,lowpair) if pair and pair!=lowpair else None
 
 def hand_rank(hand):
@@ -88,18 +100,41 @@ def hand_rank(hand):
 
 def poker(hands):
     "Return a list of winning hands: poker([hand,...]) => [hand,...]"
-    print allmax(hands, key=hand_rank)
     return allmax(hands, key=hand_rank)
 
 def allmax(iterable, key=None):
     "Return a list of all items equal to the max of the iterable."
-    max_rank = max(iterable, key)
     if key==None:key=lambda x:x
-    return [i for i in iterable if key(i)==max_rank]
+    result, maxval = [],None
+    for x in iterable:
+        xval = key(x)
+        if result is [] or xval>maxval:
+            result, maxval = [x],xval
+        elif xval==maxval:
+            result.append(x)
+    return result
+
+def deal(numhands, n=5, deck=[r+s for r in '23456789TJQKA' for s in 'SHDC']):
+    "Shuffle the deck and deal out numhands n-card hands."
+    random.shuffle(mydeck)
+    return [mydeck[i*n:(i+1)*n] for i in range(numhands)]
+
+def hand_percentages(n=700000):
+    "Sample n random hands and print a table of precentages for each type of hand."
+    counts = [0]*9
+    for i in range(n/10):
+        for hand in deal(10):
+            ranking = hand_rank(hand)[0]
+            counts[ranking]+=1
+    for i in reversed(range(9)):
+        print "%14s: %6.3f %%"%(hand_names[i],100.*counts[i]/n)
+
 
 def test():
     "Test cases for the functions in poker program"
     sf = "6C 7C 8C 9C TC".split() # Straight Flush
+    sf1 = "6C 7C 8C 9C TC".split() # Straight Flush
+    sf2 = "6D 7D 8D 9D TD".split() # Straight Flush
     fk = "9D 9H 9S 9C 7D".split() # Four of a Kind
     fh = "TD TC TH 7C 7D".split() # Full Hous
     al = "AC 2D 4H 3D 5S".split() # Ace-Low Straight
@@ -115,9 +150,11 @@ def test():
     assert straight(card_ranks(al)) == True
     assert poker([sf, fk, fh]) ==[sf]
     assert poker([fk, fh]) == [fk]
-    assert poker([fh, fh]) == [fh]
+    assert poker([fh, fh]) == [fh,fh]
     assert poker([sf]) == [sf]
     assert poker([sf] + 99*[fh]) == [sf]
+    assert poker([sf1, sf2, fk, fh]) == [sf1, sf2]
     return 'tests pass'
 
-print test()
+# print test()
+# hand_percentages(10000)
