@@ -78,6 +78,7 @@ def two_pair(ranks):
     return (pair,lowpair) if pair and pair!=lowpair else None
 
 def hand_rank(hand):
+    "Return a value indicating how high the hand ranks."
     ranks = card_ranks(hand)
     if straight(ranks) and flush(hand):            # straight flush
         return (8, max(ranks))
