@@ -8,3 +8,6 @@ Unit 1
 * `poker.py`
 * `poker_refactored.py`
 * `shuffle.py`: need explaination form probabilistic perspective
+
+* `seven_card_stud.py`
+* `jokers_wild.py` 
