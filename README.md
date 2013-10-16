@@ -28,3 +28,5 @@ Unit 2
   - optimized version of `solving_cryptarithmetic.py`
   - use `eval` to compile frequently computed formulas to functions in python
   - when assembling strings to a legal function to feed `eval`, I feel missing Scheme. S-expr rocks!
+
+* `floor_puzzie.py`
