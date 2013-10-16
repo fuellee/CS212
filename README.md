@@ -14,8 +14,16 @@ Unit 1
 * `seven_card_stud.py`
   choose the best hand(5 cards) from more than 5 cards
 * `jokers_wild.py`
-  `itertools.produce` to build the whole problem space
+  `itertools.produce` to build the whole problem space  
   [constant] * [wildcard possiblilities ..] ...
 
 Unit 2
 ------
+* `time_calls.py`
+  simple profile tool for function calls
+* `solving_cryptarithmetic.py`
+  example for using `eval`
+* `fast_solver.py`
+  - optimized version of `solving_cryptarithmetic.py`
+  - use `eval` to compile frequently computed formula to function in python
+  - when assembling strings to a legal function to feed `eval`, I feel missing Scheme. S-expr rocks!
