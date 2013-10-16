@@ -7,7 +7,15 @@ Unit 1
 ------
 * `poker.py`
 * `poker_refactored.py`
-* `shuffle.py`: need explaination form probabilistic perspective
+  one to one correspondence between hand of cards and interger paritition
+* `shuffle.py` 
+  need explaination form probabilistic perspective
 
 * `seven_card_stud.py`
-* `jokers_wild.py` 
+  choose the best hand(5 cards) from more than 5 cards
+* `jokers_wild.py`
+  `itertools.produce` to build the whole problem space
+  [constant] * [wildcard possiblilities ..] ...
+
+Unit 2
+------
