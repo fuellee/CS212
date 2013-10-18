@@ -31,3 +31,12 @@ Unit 2
 
 * `floor_puzzie.py`
 * `subpalindrome.py`
+
+Unit 3
+------
+* `regex_simple.py`  
+  a simple regex interpreter, patterns have no structure, no grouping.
+* `regex_interpreter.py`  
+  a regex interpreter, regex patterns have inner structure.
+* `regex_compiler.py`  
+  a regex compiler, compile regex patterns(looks like function calls) to python functions.
