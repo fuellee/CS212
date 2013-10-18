@@ -30,3 +30,4 @@ Unit 2
   - when assembling strings to a legal function to feed `eval`, I feel missing Scheme. S-expr rocks!
 
 * `floor_puzzie.py`
+* `subpalindrome.py`
