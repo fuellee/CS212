@@ -40,3 +40,7 @@ Unit 3
   a regex interpreter, regex patterns have inner structure.
 * `regex_compiler.py`  
   a regex compiler, compile regex patterns(looks like function calls) to python functions.
+
+
+* `regex_generator.py`  
+  a regex generator, generate instances of a regex pattern of some certain length
