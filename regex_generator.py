@@ -24,10 +24,15 @@ def oneof(chars):return lambda Ns: set(chars) if 1 in Ns else null
 dot = oneof('?')   # not expand `dot` to 256 chars, cause it expands too much. use a `?` stand for `dot`
 epsilon = lit('')  # pattern matches empty string
 
+#  like seq(x,y), but compute result immediately
 def genseq(x, y, Ns, startx=0):
     """Set of matches to xy whose total len is in Ns, with x-match's len in Ns and
     >= startx"""
-    pass
+    Nss = range(max(Ns)+1)  # Nss: everything up to the largest number(including the largest number)
+    return set(str_x+str_y
+               for str_x in x(Nss)
+               for str_y in y(Nss)
+               if len(str_x)+len(str_y) in Ns)
 
 def test():
     f = lit('hello')
