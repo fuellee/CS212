@@ -21,7 +21,7 @@ def decorator(d):
 
 @decorator
 def trace(f):
-    indent = '   '
+    indent = '    '  # 4 blank
     def _f(*args):
         signature = '%s(%s)' % (f.__name__, ', '.join(map(repr, args)))
         print '%s--> %s' % (trace.level*indent, signature)
@@ -53,4 +53,5 @@ def fib(n):
     else:
         return fib(n-1) + fib(n-2)
 
-fib(6) #running this in the browser's IDE  will not display the indentations!
+# test:
+# fib(6) #running this in the browser's IDE  will not display the indentations!
