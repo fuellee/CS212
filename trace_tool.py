@@ -29,6 +29,7 @@ def trace(f):
         try:
             result = f(*args)  # decrease level evertime `f` returns (computed)
             # if f(*args) throws a error,just throw it out, and go back level normally
+            # printed stack won't be massed by errors
             print '%s<-- %s == %s' % ((trace.level-1)*indent,
                                       signature, result)
         finally:
@@ -37,6 +38,14 @@ def trace(f):
     trace.level = 0
     return _f
 
+# @decorator
+def disabled(f):
+    """ a decorator do no thing
+    e.g: `trace = disabled` to turn off trace decorator
+    """
+    return f
+
+# trace = disabled  # decorator `trace` is `I` now (do no thing)
 @trace
 def fib(n):
     if n == 0 or n == 1:
