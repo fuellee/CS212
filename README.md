@@ -44,3 +44,6 @@ Unit 3
 
 * `regex_generator.py`  
   a regex generator, generate instances of a regex pattern of some certain length
+
+* `trace_tool.py`
+  trace function call stack inplemented with a **decorator**, pretty print the result with indentation(`trace.level`)
