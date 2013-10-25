@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import re
-from trace_tool import trace
+from trace_tool import trace,disabled
 
 def split(text, sep=None, maxsplit=-1):
     "like str.split applied to text, but **strips whitespace** from each piece"
@@ -59,23 +59,27 @@ assert (grammar(G_description)) ==\
 # atomic_expr  | 'Exp'           | parse_atom
 # regex        | '[+-]'          | tokenizer, (re.match)
 # alternatives | ([...], [...])  | parse_atom
-# list_atoms   | [..., ..., ...] | parse_seqence
+# list_atoms   | [..., ..., ...] | parse_atoms
 
 Fail = (None, None)
+trace = disabled  # disable `trace`, no trace print
 def parse(start_symbol, text, grammar):
     """Example call: parse('Exp', '3*x + b', G)
     Retrun a (parsed_tree, remainder) pair. If remainder is '', parsing is done
     Failure iff remainder is `None`. This is a deterministic PEG parser,
     so rule order (left-to-right) matters. Do 'E => T op E | T' , putting the
     **longest parse first**; **don't** do 'E => T | T op E'
-    Alse, no left recursion allowed: don't do 'E => E op T' """
+    Alse, no left recursion allowed: don't do 'E => E op T'
+
+    See: http://en.wikipedia.org/wiki/Parsing_expression_grammar
+    """
     # tokenizer pattern means: atom with optional blanks before it
     tokenizer = grammar[' '] + '(%s)'
     # (%s) for atom replacement. enclosed within parentheses means a `group`
     @trace
-    def parse_seqence(sequence, remainder):
+    def parse_atoms(atoms, remainder):
         result = []
-        for atom in sequence:
+        for atom in atoms:
             tree, remainder = parse_atom(atom, remainder)
             if remainder is None:
                 return Fail
@@ -87,9 +91,9 @@ def parse(start_symbol, text, grammar):
         # atom is a **Non-Terminal**, try match `alternatives`
         if atom in grammar:
             for alternative in grammar[atom]:
-                tree, remainder = parse_seqence(alternative, remainder)
-                if remainder is not None:  # return after first successful match
-                    return ([atom]+tree, remainder)
+                tree, rem = parse_atoms(alternative, remainder)  # `rem` and `remainder` are different!
+                if rem is not None:  # return after first successful match
+                    return ([atom]+tree, rem)
             return Fail  # no matching rule (alternatives). text is not in language defined by the grammar
         # atom is a **Terminal**, described by regex. match chars start of text
         else:
@@ -102,34 +106,8 @@ def parse(start_symbol, text, grammar):
 
     return parse_atom(start_symbol, text)
 
-print(parse('Exp', 'a * x', G))
-# assert parse('Exp', 'a * x', G) ==\
-#         (['Exp', ['Term', ['Factor', ['Var', 'a']],         # parsed_tree
-#                   '*',
-#                   ['Term', ['Factor', ['Var', 'x']]]]],
-#          '')                                                # remander
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+assert parse('Exp', 'a * x', G) ==\
+        (['Exp', ['Term', ['Factor', ['Var', 'a']],         # parsed_tree
+                  '*',
+                  ['Term', ['Factor', ['Var', 'x']]]]],
+         '')                                                # remander
