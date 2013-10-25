@@ -30,10 +30,10 @@ def memo(f):
         except TypeError:
             # some element of args can't be a dict key
             return f(*args)
-    _f.cache = cache
+    _f.cache = cache  # add a attrbute `cache` to `_f`, can be removed since cache is in the env in closure
     return _f
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # test memo
     from trace_tool import countcalls,callcounts
     # print "init callcounts:",callcounts
 
