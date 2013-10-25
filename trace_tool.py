@@ -19,6 +19,16 @@ def decorator(d):
     update_wrapper(_d, d)
     return _d
 
+callcounts = {}
+@decorator
+def countcalls(f):
+    "Decorator that makes the function count calls to it, in callcounts[f]."
+    def _f(*args):
+        callcounts[_f] += 1
+        return f(*args)
+    callcounts[_f] = 0
+    return _f
+
 @decorator
 def trace(f):
     indent = '    '  # 4 blank
