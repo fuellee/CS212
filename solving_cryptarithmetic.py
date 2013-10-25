@@ -79,4 +79,5 @@ def test():
         print '%6.4f sec:   %s '%timedcall(solve, example)
     print '%6.4f tot.'%(time.clock()-t0)
 
-test()
+if __name__ == '__main__':
+    test()

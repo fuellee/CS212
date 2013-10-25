@@ -39,15 +39,16 @@ Var => [a-zA-Z_]\w*
 Num => [-+]?[0-9]+([.][0-9]*)?
 """
 G = grammar(G_description)
-assert (grammar(G_description)) ==\
-        {' ': '\\s*',
-         'Term': (['Factor', '[*/]', 'Term'], ['Factor']),
-         'Exps': (['Exp', '[,]', 'Exps'], ['Exp']),
-         'Funcall': (['Var', '[(]', 'Exps', '[)]'],),
-         'Num': (['[-+]?[0-9]+([.][0-9]*)?'],),
-         'Exp': (['Term', '[+-]', 'Exp'], ['Term']),
-         'Factor': (['Funcall'], ['Var'], ['Num'], ['[(]', 'Exp', '[)]']),
-         'Var': (['[a-zA-Z_]\\w*'],)}
+if __name__ == '__main__':
+    assert (grammar(G_description)) ==\
+            {' ': '\\s*',
+            'Term': (['Factor', '[*/]', 'Term'], ['Factor']),
+            'Exps': (['Exp', '[,]', 'Exps'], ['Exp']),
+            'Funcall': (['Var', '[(]', 'Exps', '[)]'],),
+            'Num': (['[-+]?[0-9]+([.][0-9]*)?'],),
+            'Exp': (['Term', '[+-]', 'Exp'], ['Term']),
+            'Factor': (['Funcall'], ['Var'], ['Num'], ['[(]', 'Exp', '[)]']),
+            'Var': (['[a-zA-Z_]\\w*'],)}
 
 
 # parse(symbol, text, G) -> (parsed_tree, remander)
@@ -106,8 +107,9 @@ def parse(start_symbol, text, grammar):
 
     return parse_atom(start_symbol, text)
 
-assert parse('Exp', 'a * x', G) ==\
-        (['Exp', ['Term', ['Factor', ['Var', 'a']],         # parsed_tree
-                  '*',
-                  ['Term', ['Factor', ['Var', 'x']]]]],
-         '')                                                # remander
+if __name__ == '__main__':
+    assert parse('Exp', 'a * x', G) ==\
+            (['Exp', ['Term', ['Factor', ['Var', 'a']],         # parsed_tree
+                    '*',
+                    ['Term', ['Factor', ['Var', 'x']]]]],
+            '')                                                # remander

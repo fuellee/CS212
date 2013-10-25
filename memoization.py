@@ -32,3 +32,25 @@ def memo(f):
             return f(*args)
     _f.cache = cache
     return _f
+
+if __name__ == '__main__':
+    from trace_tool import countcalls,callcounts
+    # print "init callcounts:",callcounts
+
+    @countcalls
+    @memo
+    def fib_memo(n): return 1 if n<=1 else fib_memo(n-1)+fib_memo(n-2)
+
+    @countcalls
+    def fib(n): return 1 if n<=1 else fib(n-1)+fib(n-2)
+
+    def test(n=10,f=fib):
+        print"function name:\t",f.__name__
+        print("   n    result   callcounts")
+        print("----------------------------")
+        for i in range(1,n+1):
+            print "%4d %8d %8d"%(i, f(i), callcounts[f])
+            callcounts[fib]=0
+
+    test()
+    test(n=30,f=fib_memo)

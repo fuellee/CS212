@@ -20,7 +20,8 @@ Unit 1
 Unit 2
 ------
 * `time_calls.py`
-  simple profile tool for function calls
+  simple profile tool for function calls;  
+  `zebra_puzzle` inside
 * `solving_cryptarithmetic.py`
   - example for using `eval`
   - profile (python -m cPython solving_cryptarithmetic.py) shows `eval` consumes a large percentage of time. `eval` parses formulae in every call, compile that into functions is a better approach

@@ -27,8 +27,6 @@ def test_compiled_recognizer():
     assert g('abc') == {'c'}
     return 'compiled recognizer tests pass'
 
-# print test_compiled_recognizer()
-
 #---------------
 # User Instructions
 #
@@ -84,5 +82,6 @@ def test_search_match():
 
     return 'match-search tests pass'
 
-print(test_search_match())
-
+if __name__ == '__main__':
+    print(test_compiled_recognizer())
+    print(test_search_match())

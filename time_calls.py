@@ -71,4 +71,5 @@ def timedcalls(n, fn, *args):
         #     times.append(timedcall(fn, *args)[0])
     return min(times), average(times), max(times)
 
-print timedcalls(10,zebra_puzzle)
+if __name__ == '__main__':
+    print timedcalls(10,zebra_puzzle)

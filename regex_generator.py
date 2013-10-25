@@ -79,5 +79,6 @@ def test_seqgen():
                  'bab', 'bac', 'bba', 'bbb', 'bbc']))
     return 'test_seqgen passes'
 
-print(test_simple_generator())
-print(test_seqgen())
+if __name__ == '__main__':
+    print(test_simple_generator())
+    print(test_seqgen())

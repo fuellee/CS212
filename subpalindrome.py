@@ -53,7 +53,7 @@ def longest_subpalindrome_slice(text):
     candidates = [grow(text,start,end)
                   for start in range(len(text))
                   for end in (start, start+1)]
-    print candidates
+    # print candidates
     return max(candidates, key=length)
 
 def grow(text, start, end):
@@ -75,5 +75,5 @@ def test():
     assert L('Mad am I ma dam.') == (0, 15)
     return 'tests pass'
 
-print test()
-
+if __name__ == '__main__':
+    print test()

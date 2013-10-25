@@ -63,5 +63,5 @@ def fib(n):
     else:
         return fib(n-1) + fib(n-2)
 
-# test:
-# fib(6) #running this in the browser's IDE  will not display the indentations!
+if __name__ == '__main__':
+    fib(6)

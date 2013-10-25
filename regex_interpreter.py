@@ -29,7 +29,7 @@ def matchset(pattern, text):
     elif 'dot' == op:
         return {text[1:]} if text!='' else null
     elif 'oneof' == op:
-        return {[text[1:]]} if text.startswith(x) else null
+        return {text[1:]} if text.startswith(x) else null
     elif 'eol' == op:
         return set(['']) if text == '' else null
     elif 'star' == op:
@@ -62,7 +62,6 @@ def test_matchset():
 
     return 'matchset tests pass'
 
-# print test_matchset()
 
 #---------------
 # User Instructions
@@ -94,7 +93,6 @@ def test_innerrepresentation():
     assert oneof('abc')       == ('oneof', ('a', 'b', 'c'))
     return 'inner-representations tests pass'
 
-# print test_innerrepresentation()
 
 #---------------
 # User Instructions
@@ -124,4 +122,7 @@ def test_search_match():
     assert search(('alt', ('lit', 'b'), ('lit', 'c')), 'ab') == 'b'
     return 'match tests pass'
 
-print test_search_match()
+if __name__ == '__main__':
+    print test_matchset()
+    print test_innerrepresentation()
+    print test_search_match()

@@ -99,5 +99,6 @@ def test():
     assert poker([sf1, sf2, fk, fh]) == [sf1, sf2]
     return 'tests pass'
 
-print test()
-# hand_percentages(10000)
+if __name__ == '__main__':
+    print test()
+    hand_percentages(10000)

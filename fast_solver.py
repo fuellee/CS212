@@ -64,4 +64,5 @@ def test():
     assert faster_solve('X / X == X') == '1 / 1 == 1'
     return 'tests pass'
 
-print test()
+if __name__ == '__main__':
+    print test()

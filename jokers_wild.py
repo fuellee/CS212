@@ -119,5 +119,5 @@ def two_pair(ranks):
     else:
         return None
 
-
-print test_best_wild_hand()
+if __name__ == '__main__':
+    print test_best_wild_hand()

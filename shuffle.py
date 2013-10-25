@@ -72,4 +72,5 @@ def test_shufflers(shufflers=[shuffle, shuffle1, shuffle2, shuffle3], decks=['ab
         for f in shufflers:
             test_shuffler(f, deck)
 
-print test_shufflers()
+if __name__ == '__main__':
+    print test_shufflers()
