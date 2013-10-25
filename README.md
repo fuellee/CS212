@@ -58,3 +58,5 @@ Unit 3
 * `grammar_memo.py`  
   - almost the same as `grammar.py`, the only difference is subroutine `parse_atom` is memoized(with @memo defined in `memoization.py`)
   - reduce function calls (`parse_atom` and `parse_atoms`) from **180** to **66**
+* `verify.py`  
+  help function, check user defined grammars
