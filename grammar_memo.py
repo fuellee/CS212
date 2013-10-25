@@ -2,6 +2,7 @@
 
 import re
 from trace_tool import trace,disabled
+from memoization import memo
 
 def split(text, sep=None, maxsplit=-1):
     "like str.split applied to text, but **strips whitespace** from each piece"
@@ -63,7 +64,8 @@ if __name__ == '__main__':
 # list_atoms   | [..., ..., ...] | parse_atoms
 
 Fail = (None, None)
-trace = disabled  # disable `trace`, no trace print
+if __name__ != '__main__':
+    trace = disabled  # disable `trace`, no trace print
 def parse(start_symbol, text, grammar):
     """Example call: parse('Exp', '3*x + b', G)
     Retrun a (parsed_tree, remainder) pair. If remainder is '', parsing is done
@@ -88,6 +90,7 @@ def parse(start_symbol, text, grammar):
         return (result, remainder)
 
     @trace
+    @memo
     def parse_atom(atom, remainder):
         # atom is a **Non-Terminal**, try match `alternatives`
         if atom in grammar:
