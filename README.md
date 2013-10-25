@@ -45,7 +45,12 @@ Unit 3
 * `regex_generator.py`  
   a regex generator, generate instances of a regex pattern of some certain length
 
+* `memoization.py`
+  - `n_ary`: decorator that makes a binary function n ary.
+  - `memo` : decorator that caches the return value for each call to f(args). look `cache[args]` up before actually call the function.
 * `trace_tool.py`
-  trace function call stack inplemented with a **decorator**, pretty print the result with indentation(`trace.level`)
+  - `trace`:trace function call stack inplemented with a **decorator**, pretty print the result with indentation(`trace.level`)
+  - `countcalls`: decorator that makes the function count calls to it, store in `callcount[f]`
 
-* `grammar.py`
+* `grammar.py`  
+  a simple top-down deterministic PEG parser 
