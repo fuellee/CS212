@@ -9,7 +9,8 @@ Unit 1
 * `poker_refactored.py`  
   one to one correspondence between hand of cards and interger paritition
 * `shuffle.py`   
-  need explaination form probabilistic perspective
+  need explaination form probabilistic perspective;
+  discussions[1](http://forums.udacity.com/questions/5003230/chi-squared-test-applied-to-shuffles#cs212)[2](http://forums.udacity.com/questions/5003462/less-biased-implementation-of-shuffle2#cs212?page=1&focusedAnswerId=8980) 
 
 * `seven_card_stud.py`  
   choose the best hand(5 cards) from more than 5 cards
@@ -35,6 +36,7 @@ Unit 2
 
 Unit 3
 ------
+### Regex Recognizer and Generator 
 * `regex_simple.py`  
   a simple regex interpreter, patterns have no structure, no grouping.
 * `regex_interpreter.py`  
@@ -46,6 +48,7 @@ Unit 3
 * `regex_generator.py`  
   a regex generator, generate instances of a regex pattern of some certain length
 
+### Useful python decorators
 * `memoization.py`
   - `n_ary`: decorator that makes a binary function n ary.
   - `memo` : decorator that caches the return value for each call to f(args). look `cache[args]` up before actually call the function.
@@ -53,8 +56,9 @@ Unit 3
   - `trace`:trace function call stack inplemented with a **decorator**, pretty print the result with indentation(`trace.level`)
   - `countcalls`: decorator that makes the function count calls to it, store in `callcount[f]`
 
+### Parser
 * `grammar.py`  
   a simple top-down deterministic PEG parser 
 * `grammar_memo.py`  
-  - almost the same as `grammar.py`, the only difference is subroutine `parse_atom` is memoized(with @memo defined in `memoization.py`)
-  - reduce function calls (`parse_atom` and `parse_atoms`) from **180** to **66**
+  - almost the same as `grammar.py`, the only difference is subroutine `parse_atom` is memoized(with `@memo` defined in `memoization.py`)
+  - reduce total function calls (`parse_atom` and `parse_atoms`) from **180** to **66**
