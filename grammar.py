@@ -2,7 +2,6 @@
 
 import re
 from trace_tool import trace,disabled
-from memoization import memo
 
 def split(text, sep=None, maxsplit=-1):
     "like str.split applied to text, but **strips whitespace** from each piece"
@@ -97,11 +96,11 @@ def parse(start_symbol, text, grammar):
                 tree, rem = parse_atoms(alternative, remainder)  # `rem` and `remainder` are different!
                 if rem is not None:  # return after first successful match
                     return ([atom]+tree, rem)
-            return Fail  # no matching rule (alternatives). text is not in language defined by the grammar
+            return Fail  # no matching rule (alternatives)
         # atom is a **Terminal**, described by regex. match chars start of text
         else:
             terminal_with_blank = re.match(tokenizer%atom, remainder)
-            if not terminal_with_blank:  # can't match terminal. means text is not in language defined by the grammar
+            if not terminal_with_blank:  # can't match this terminal
                 return Fail
             else:
                 return (terminal_with_blank.group(1), remainder[terminal_with_blank.end():])
