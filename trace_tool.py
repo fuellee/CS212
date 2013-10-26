@@ -48,7 +48,7 @@ def trace(f):
     trace.level = 0
     return _f
 
-# @decorator
+@decorator
 def disabled(f):
     """ a decorator do no thing
     e.g: `trace = disabled` to turn off trace decorator
@@ -62,6 +62,8 @@ def fib(n):
         return 1
     else:
         return fib(n-1) + fib(n-2)
+# apply decorators to lambda expr:
+# fib = trace(lambda n:1 if n<=1 else fib(n-1)+fib(n-2))
 
 if __name__ == '__main__':
     fib(6)
