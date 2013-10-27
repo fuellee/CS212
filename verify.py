@@ -5,6 +5,11 @@ def print_grammar(G):
         dumped_rhs = ' | '.join([' '.join(alt)  for alt in G[non_term]])
         print non_term,'=>',dumped_rhs
 
+def check_left_recursion(G):
+    for non_term in G:
+        if [True for alt in G[non_term] if alt[0]==non_term]:
+            print "Error: left recusion in rules of **",non_term ,"**"
+
 def verify(G):
     lhs_tokens = set(G)-set(' ')
     rhs_tokens = set(token for alts in G.values() for alt in alts for token in alt if token.isalnum()) #can't handle '_'
@@ -15,12 +20,6 @@ def verify(G):
 
     def show(title,tokens):
         print title,'=',' '.join(sorted(tokens))
-
-    def print_grammar():
-        for non_term in G:
-            [' '.join  for alt in G[non_term]]
-            print lhs,'=>',' | '.join([])
-
 
     show('Non-Terms', non_terms)  # G to lhs_tokens
     show('Terminals', terminals)  # should be regexes
@@ -73,11 +72,12 @@ if __name__ == '__main__':
     xalphas => xalpha xalphas | xalpha
     xalpha => alpha | digit | safe | extra | escape
     """, whitespace = '()')
-    # print "--URL grammar:\n",(URL)
-    # print
-    # verify(URL)
-    # print
-    # print "--parsed http://www.w3.org/Addressing/URL/5_BNF.html:\n",(parse('url', 'http://www.w3.org/Addressing/URL/5_BNF.html', URL))
+    print "--URL grammar:\n",(URL)
+    print
+    verify(URL)
+    print
+    print "--parsed http://www.w3.org/Addressing/URL/5_BNF.html:\n",(parse('url', 'http://www.w3.org/Addressing/URL/5_BNF.html', URL))
+    print "--print_grammar: URL"
     print_grammar(URL)
 
 
