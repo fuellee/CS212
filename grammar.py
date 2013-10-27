@@ -91,6 +91,7 @@ def parse(start_symbol, text, grammar):
     @trace
     def parse_atom(atom, remainder):
         # atom is a **Non-Terminal**, try match `alternatives`
+        # `Non-Terminal` == `lhs`
         if atom in grammar:
             for alternative in grammar[atom]:
                 tree, rem = parse_atoms(alternative, remainder)  # `rem` and `remainder` are different!
