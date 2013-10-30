@@ -48,7 +48,7 @@ def path_cost(path):
 def bcost(action):
     """Returns the cost (a number) of an action in the
     bridge problem."""
-    # An action is an (a, b, arrow) tuple; a and b are
+    # An action is an (a, b, arrow) tuple; a and b ark
     # times; arrow is a string.
     a, b, arrow = action
     return max(a,b)
@@ -63,21 +63,30 @@ def bridge_problem(here):
         return frontier[0]
     while frontier:
         path = frontier.pop(0)
-        here = path[-1][0]
+        here, _ = final_state = path[-1]
         # check when pop off the path, every cheaper path is checked. so it's shortest path
-        if not here:  ## That is, nobody left here
+        if not here:  ## nobody here, done
             return path
-        for (state, action) in bsuccessors(path[-1]).items():
+        explored.add(final_state)
+        pcost = path_cost(path)
+        for (state, action) in bsuccessors(final_state).items():
             if state not in explored:
-                here, there = state
-                explored.add(state)
-                path2 = path + [(action, bcost(action)), state]
-                # if not here:  ## no one here, done if check here (immediately) may not be shortest path
-                #     return path2
-                # else:
-                frontier.append(path2)
-                frontier.sort(key=path_cost)  ## best first search
+                path2 = path + [(action, pcost+bcost(action)), state]
+                add_path_to_frontier(path,frontier)
     return []
+
+def final_state(path):return path[-1]
+# frontier should be refactored into a bridge_problem
+def add_path_to_frontier(new_path,frontier):
+    fstate = final_state(new_path)
+    cost = path_cost(new_path)
+    new_path_is_better = False
+    for i,path_ in enumerate(frontier):
+        if final_state(path_)==fstate and path_cost(path_) > cost:
+            new_path_is_better = True;break
+    if new_path_is_better:
+        frontier[i]=new_path
+        frontier.sort(key=path_cost)
 
 # path_actions :: path -> [action]
 def path_actions(path):

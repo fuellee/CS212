@@ -11,20 +11,21 @@ from verify import verify,check_left_recursion#,print_grammar
 
 # NOTE: in udacity course solution, `members` and `elements` are used instead
 # of `pairs` and `values` respectively
-JSON = grammar( """
+JSON = grammar( r"""
 object => \{ \} | \{ pairs \}
 pair => string : value
 pairs =>  pair , pairs | pair
 array  => \[ \] | \[ values \]
 values  =>  value , values | value
 value  => string | number | object | array | true | false | null
-string => "[^"]*"
+string => "(?:[^"\\]|\\(?:["\\/bfnrt]|[0-9a-f]{4}))*"
 number => int frac exp | int frac | int exp | int
 int => -?(?:0|[1-9][0-9]*)
 frac => [.][0-9]+
 exp => [eE][+-]?[0-9]+
 """, whitespace='\s*')
 # string => "(?:[^"\\]|\\(?:["\\/bfnrt]|[0-9a-f]{4}))*"
+# string => "[^"]*"
 
 def json_parse(text):
     return parse('value', text, JSON)
@@ -33,11 +34,19 @@ if __name__ == '__main__':
     def test():
         verify(JSON)
         check_left_recursion(JSON)
+        # string:
         assert json_parse('"a"')         == (['value', ['string', '"a"']], '')
+        assert json_parse(r'"\123a"')    == (['value', ['string', '"\\123a"']], '')
+        assert json_parse(r'"\n\b\\\/\r\t\f"') == (['value', ['string', '"\\n\\b\\\\\\/\\r\\t\\f"']], '')
+        assert json_parse(r'"\a"')       == (None, None)  # invalid
+        assert json_parse(r'"a123\""')   == (['value', ['string', '"a123\\""']], '')
+        assert json_parse(r'"a123f""')   == (['value', ['string', '"a123f"']], '"')
+        # number:
         assert json_parse('1')           == (['value', ['number', ['int', '1']]], '')
         assert json_parse('-1')          == (['value', ['number', ['int', '-1']]], '')
         assert json_parse('-123.456e+789') == (
             ['value', ['number', ['int', '-123'], ['frac', '.456'], ['exp', 'e+789']]], '')
+        # array:
         assert json_parse('[]')          == (['value', ['array', '[', ']']], '')
         assert json_parse('["testing"]') == (['value', ['array', '[', ['values', ['value', ['string', '"testing"']]], ']']], '')
         assert json_parse('[1]')         == (['value', ['array', '[', ['values', ['value', ['number', ['int', '1']]]], ']']], '')
@@ -48,6 +57,7 @@ if __name__ == '__main__':
                             ['int', '1']]], ',', ['values', ['value', ['number',
                             ['int', '2']]], ',', ['values', ['value', ['number',
                             ['int', '3']]]]]]], ']']], '')
+        # object:
         assert json_parse('{}')          == (['value', ['object', '{', '}']], '')
         assert json_parse('{"age": 21, "state":"CO","occupation":"rides the rodeo"}') == (
                             ['value', ['object', '{', ['pairs', ['pair', ['string', '"age"'],
