@@ -12,6 +12,29 @@
 #
 # The previous bsuccessors function is included for your reference.
 
+# signatures:
+# ===========
+"""
+state :: (here, there)
+here  :: frozenset
+there :: frozenset
+
+path  :: [state, (action, cost), state, ... ] # start with a state and end with a state, and have a (action, cost) between every pair of states
+
+frontier :: [path]
+
+------------------------------------------------------
+bcost :: action -> cost
+path_cost :: path -> cost
+bsuccessors :: state -> {state:action}
+"""
+
+[(frozenset([1, 2, 'light', 10, 5]), frozenset([])),
+ ((2, 1, '->'), 2),
+ (frozenset([10, 5]), frozenset(['light', 2, 1])),
+ ((1, 1, '<-'), 1),
+ (frozenset(['light', 10, 5, 1]), frozenset([2]))]
+
 import itertools
 # state :: (here, there)
 # here  :: frozenset
@@ -66,7 +89,7 @@ def bridge_problem(here):
     if not here or here == frozenset(['light']):  # no one here, done
         return frontier[0]
     while frontier:
-        frontier.sort(key=path_cost)
+        frontier.sort(key=path_cost)  # best first search
         # print "frontier:\t",frontier
         path = frontier.pop(0)
 
