@@ -74,3 +74,8 @@ Unit 3
 
 Unit 4
 ------
+### Bridge Problem
+* `bridge.py`  
+  **best first search** to solve bridge problem. `cost` is contained in `state`, which makes it easier to handle but less efficient.
+* `bridge_refactored.py`  
+  refactored version, move `cost` out of `state`, adjust several data structures, move complex steps to independent functions.
