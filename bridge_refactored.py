@@ -26,7 +26,7 @@ def bsuccessors(state):
     successors = {}
     (from_, to, arrow) = (here,there,'->') if 'light' in here else (there,here,'<-')
 
-    for (person2,person1) in itertools.combinations_with_replacement(from_-{'light'} ,2):
+    for (person1,person2) in itertools.combinations_with_replacement(from_-{'light'} ,2):
         team = {person1, person2, 'light'}
         state = (from_^team, to^team) if arrow is '->' else (to^team, from_^team)
         action = (person1, person2, arrow)
@@ -57,22 +57,35 @@ def bcost(action):
 # best first search
 def bridge_problem(here):
     here = frozenset(here) | {'light'}
+
+    # print "start here:", here
+    # print "============================================"
+
     explored = set()
     frontier = [ [(here, frozenset())]]  # ordered list of paths we have blazed
-    if not here:  # no one here, done
+    if not here or here == frozenset(['light']):  # no one here, done
         return frontier[0]
     while frontier:
+        frontier.sort(key=path_cost)
+        # print "frontier:\t",frontier
         path = frontier.pop(0)
+
+        # print "---path poped off:", path
         here, _ = final_state = path[-1]
         # check when pop off the path, every cheaper path is checked. so it's shortest path
         if not here:  ## nobody here, done
+            # print "no one here, done"
             return path
         explored.add(final_state)
         pcost = path_cost(path)
         for (state, action) in bsuccessors(final_state).items():
+
+            # print "(state,action):",(state,action)
+
             if state not in explored:
+                # print "state not explored"
                 path2 = path + [(action, pcost+bcost(action)), state]
-                add_path_to_frontier(path,frontier)
+                add_path_to_frontier(path2,frontier)
     return []
 
 def final_state(path):return path[-1]
@@ -85,8 +98,8 @@ def add_path_to_frontier(new_path,frontier):
         if final_state(path_)==fstate and path_cost(path_) > cost:
             new_path_is_better = True;break
     if new_path_is_better:
-        frontier[i]=new_path
-        frontier.sort(key=path_cost)
+        del frontier[i]
+    frontier.append(new_path)
 
 # path_actions :: path -> [action]
 def path_actions(path):
@@ -112,47 +125,46 @@ if __name__ == '__main__':
         assert bsuccessors((here2, there2)) == {
                 (frozenset([1]), frozenset(['light', 2, 3])): (2, 2, '->'),
                 (frozenset([2]), frozenset([1, 3, 'light'])): (1, 1, '->'),
-                (frozenset([]), frozenset([1, 2, 3, 'light'])): (2, 1, '->')}
+                (frozenset([]), frozenset([1, 2, 3, 'light'])): (1, 2, '->')}
 
-        print path_actions(bridge_problem([1,2,5,10]))
         assert path_actions(bridge_problem([1,2,5,10])) == \
                 [(1, 2, '->'), (1, 1, '<-'), (10, 5, '->'), (2, 2, '<-'), (1, 2, '->')]
         return 'tests pass'
 
-#     import doctest
-#     class TestBridge: """
-# >>> path_cost(bridge_problem([1,2,5,10]))
-# 17
-#
-# ## There are two equally good solutions
-# >>> S1 = [((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((5, 10, '->'), 13), ((2, 2, '<-'), 15), ((2, 1, '->'), 17)]
-#
-# >>> S2 = [((2, 1, '->'), 2), ((2, 2, '<-'), 4), ((5, 10, '->'), 14), ((1, 1, '<-'), 15), ((2, 1, '->'), 17)]
-# >>> path_actions(bridge_problem([1,2,5,10])) in (S1, S2)
-# True
-#
-# ## Try some other problems
-# >>> path_actions(bridge_problem([1,2,5,10,15,20]))
-# [((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((5, 10, '->'), 13), ((2, 2, '<-'), 15), ((2, 1, '->'), 17), ((1, 1, '<-'), 18), ((15, 20, '->'), 38), ((2, 2, '<-'), 40), ((2, 1, '->'), 42)]
-#
-# >>> path_actions(bridge_problem([1,2,4,8,16,32]))
-# [((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((8, 4, '->'), 11), ((2, 2, '<-'), 13), ((1, 2, '->'), 15), ((1, 1, '<-'), 16), ((16, 32, '->'), 48), ((2, 2, '<-'), 50), ((2, 1, '->'), 52)]
-#
-# >>> [path_cost(bridge_problem([1,2,4,8,16][:N])) for N in range(6)]
-# [0, 1, 2, 7, 15, 28]
-#
-# >>> [path_cost(bridge_problem([1,1,2,3,5,8,13,21][:N])) for N in range(8)]
-# [0, 1, 1, 2, 6, 12, 19, 30]
-#
-# # http://en.wikipedia.org/wiki/Bridge_and_torch_problem
-# >>> path_actions(bridge_problem([1,2,5,8]))
-# [((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((5, 8, '->'), 11), ((2, 2, '<-'), 13), ((2, 1, '->'), 15)]
-#
-# >>> path_cost(bridge_problem([1,2,5,8]))
-# 15
-#
-# >>> path_cost(bridge_problem([5,10,20,25]))
-# 60
-# """
+    import doctest
+    class TestBridge: """
+>>> path_cost(bridge_problem([1,2,5,10]))
+17
+
+## There are two equally good solutions
+>>> S1 = [((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((5, 10, '->'), 13), ((2, 2, '<-'), 15), ((2, 1, '->'), 17)]
+
+>>> S2 = [((2, 1, '->'), 2), ((2, 2, '<-'), 4), ((5, 10, '->'), 14), ((1, 1, '<-'), 15), ((2, 1, '->'), 17)]
+>>> path_actions(bridge_problem([1,2,5,10])) in (S1, S2)
+True
+
+## Try some other problems
+>>> path_actions(bridge_problem([1,2,5,10,15,20]))
+[((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((5, 10, '->'), 13), ((2, 2, '<-'), 15), ((2, 1, '->'), 17), ((1, 1, '<-'), 18), ((15, 20, '->'), 38), ((2, 2, '<-'), 40), ((2, 1, '->'), 42)]
+
+>>> path_actions(bridge_problem([1,2,4,8,16,32]))
+[((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((8, 4, '->'), 11), ((2, 2, '<-'), 13), ((1, 2, '->'), 15), ((1, 1, '<-'), 16), ((16, 32, '->'), 48), ((2, 2, '<-'), 50), ((2, 1, '->'), 52)]
+
+>>> [path_cost(bridge_problem([1,2,4,8,16][:N])) for N in range(6)]
+[0, 1, 2, 7, 15, 28]
+
+>>> [path_cost(bridge_problem([1,1,2,3,5,8,13,21][:N])) for N in range(8)]
+[0, 1, 1, 2, 6, 12, 19, 30]
+
+# http://en.wikipedia.org/wiki/Bridge_and_torch_problem
+>>> path_actions(bridge_problem([1,2,5,8]))
+[((2, 1, '->'), 2), ((1, 1, '<-'), 3), ((5, 8, '->'), 11), ((2, 2, '<-'), 13), ((2, 1, '->'), 15)]
+
+>>> path_cost(bridge_problem([1,2,5,8]))
+15
+
+>>> path_cost(bridge_problem([5,10,20,25]))
+60
+"""
     print test()
-    # print(doctest.testmod())
+    print(doctest.testmod())
