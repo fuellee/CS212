@@ -79,3 +79,10 @@ Unit 4
   **best first search** to solve bridge problem. `cost` is contained in `state`, which makes it easier to handle but less efficient.
 * `bridge_refactored.py`  
   refactored version, move `cost` out of `state`, adjust several data structures, move complex steps to independent functions.
+
+### General Search Algorithms
+* `shortest_path_search.py`:  
+  **width first search`**
+* `lowest_cost_search.py`:  
+  **best first search**   
+  TODO: use represent `frontier` instead of list
