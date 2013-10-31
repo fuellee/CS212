@@ -87,6 +87,9 @@ Unit 4
   **best first search**   
   TODO: use heap to represent `frontier` instead of list
 
-### Pour Problem
+### Examples
 * `pour_problem.py`:  
   example for using `shortest_path_search`
+* `subway_planning.py`
+  - example for using `shortest_path_search`
+  - `collections` `collections.defaultdict`
