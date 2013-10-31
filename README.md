@@ -85,7 +85,7 @@ Unit 4
   **width first search`**
 * `lowest_cost_search.py`:  
   **best first search**   
-  TODO: use represent `frontier` instead of list
+  TODO: use heap to represent `frontier` instead of list
 
 ### Pour Problem
 * `pour_problem.py`:  
