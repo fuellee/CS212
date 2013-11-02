@@ -28,7 +28,7 @@ def lowest_cost_search(start, successors, is_goal, action_cost):
         state1 = final_state(path)
         if is_goal(state1):
 
-            # print pcost
+            print pcost
 
             return path
         explored.add(state1)
@@ -99,4 +99,5 @@ if __name__ == '__main__':
         #         (frozenset([]), frozenset([1, 10, 2, 5, 'light']))]
         return 'test passes'
 
-    print test()
+    test()
+bridge_problem3(range(1,10))

@@ -87,6 +87,21 @@ Unit 4
   **best first search**   
   TODO: use heap to represent `frontier` instead of list
 
+profile: bridge problem with `here = range(10)`
+>   lowest_cost_search_heap.py
+>   real	0m27.711s
+>   user	0m26.742s
+>   sys	0m0.116s
+>   lowest_cost_search.py
+>   real	0m0.305s
+>   user	0m0.284s
+>   sys	0m0.008s
+>   lowest_cost_search_unopt.py
+>   real	0m0.321s
+>   user	0m0.289s
+>   sys	0m0.004s
+some thhing is wrong with lowest_cost_search_heap.py
+
 ### Examples
 * `pour_problem.py`:  
   example for using `shortest_path_search`
