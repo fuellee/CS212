@@ -5,6 +5,7 @@
 # In this problem, you will generalize the bridge problem
 # by writing a function bridge_problem3, that makes a call
 # to lowest_cost_search.
+# TODO: add more test cases
 
 import heapq
 def lowest_cost_search(start, successors, is_goal, action_cost):
@@ -79,12 +80,11 @@ if __name__ == '__main__':
 
     def test():
         here = [1, 2, 5, 10]
-        print actions(bridge_problem3(here))
-        # assert actions(bridge_problem3(here)) == [((2, 1, '->'), 2),
-        #                                           ((2, 2, '<-'), 4),
-        #                                           ((5, 10, '->'), 14),
-        #                                           ((1, 1, '<-'), 15),
-        #                                           ((2, 1, '->'), 17),]
+        assert actions(bridge_problem3(here)) == [(2, 1, '->'),
+                                                 (1, 1, '<-'),
+                                                 (5, 10, '->'),
+                                                 (2, 2, '<-'),
+                                                 (2, 1, '->')]
         # assert bridge_problem3(here) == [
         #         (frozenset([1, 2, 'light', 10, 5]), frozenset([])),
         #         ((2, 1, '->'), 2),
